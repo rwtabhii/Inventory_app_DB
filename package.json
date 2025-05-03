@@ -1,0 +1,29 @@
+{
+  "name": "inventory_app",
+  "version": "1.0.0",
+  "description": "this is a Inventory app that based on the RESTAPI & Im dealing with only Data. & Checking the each functionality working or not im using the POSTMAN to check each Api",
+  "main": "server.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rwtabhii/InventoyApp.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/rwtabhii/InventoyApp/issues"
+  },
+  "homepage": "https://github.com/rwtabhii/InventoyApp#readme",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.5.0",
+    "express": "^4.21.2",
+    "jsonwebtoken": "^9.0.2",
+    "mongodb": "^6.16.0",
+    "swagger-ui-express": "^5.0.1",
+    "winston": "^3.17.0"
+  }
+}

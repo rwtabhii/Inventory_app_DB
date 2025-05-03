@@ -1,0 +1,80 @@
+{
+    "openapi": "3.0.4",
+    "info": {
+        "version": "1.0.0",
+        "description": "Api's for our Ecom application",
+        "title": "Ecom Api's"
+    },
+    "servers": [
+        {
+            "url": "http://localhost:3200"
+        }
+    ],
+    "components": {
+        "securitySchemes": {
+            "JWT": {
+                "in": "header",
+                "name": "Authorization",
+                "type": "apiKey"
+            }
+        }
+    },
+    "paths": {
+        "/api/user/signin": {
+            "post": {
+                "tags": [
+                    "User LogIn"
+                ],
+                "summary": "LogIn",
+                "description": "User login to get token",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "email": {
+                                        "type": "string"
+                                    },
+                                    "password": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "401": {
+                        "description": "Incorret Credintial"
+                    }
+                }
+            }
+        },
+        "/api/products": {
+            "get": {
+                "tags": [
+                    "Products"
+                ],
+                "summary": "products",
+                "description": "Get all the products",
+                "security": [
+                    {
+                        "JWT": {}
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                }
+            }
+        }
+    }
+}
