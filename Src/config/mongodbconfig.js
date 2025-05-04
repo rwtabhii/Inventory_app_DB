@@ -1,13 +1,16 @@
 import { MongoClient } from "mongodb";
 
 let client;
-export default connnectToDb = ()=>{
+export const connnectToDb = async()=>{
     try{
-      const clinetInstance =  MongoClient.connect(process.env.DB_URL);
-      client = clinetInstance;
+      client =  await MongoClient.connect(process.env.DB_URL);
       console.log("MongoDB connected successfully");
     }
     catch(err){
     console.log("MongoDB didnot connected",err);
     }
+}
+
+export  const getDb =()=>{
+  return client.db();
 }
