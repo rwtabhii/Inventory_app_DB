@@ -7,23 +7,10 @@ export class userModel {
         this.type = type;
     }
 
-    static signup(data) {
-        const { name, email, password } = data;
+    static signup(name,email,password) {
         const newUser = new userModel(users.length + 1, name, email, password);
-        users.push(newUser);
         return newUser;
-
-
     }
-
-    static signin(email, password) {
-        const findUser = users.find(user => user.email == email && user.password == password)
-        return findUser;
-
-    }
-
-
-
 }
 
 

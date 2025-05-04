@@ -9,7 +9,7 @@ const jwtAuth = (req, res, next) => {
 
     // 3. check if token is valid
     try {
-       const payload =  jwt.verify(token, "wahnaqNcsZD8ft6jt3P7kgzPT3S6ukuk");
+       const payload =  jwt.verify(token, process.env.JWT_SECRET);
        console.log(payload);
     } catch (err) {
         console.log(err);
