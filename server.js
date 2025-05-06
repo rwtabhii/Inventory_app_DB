@@ -11,6 +11,7 @@ import cors from "cors";
 import fs from "fs";
 import loggerMiddleware from "./Src/feature/middlware/logger.middleware.js";
 import { ApplicationError } from "./Src/feature/middlware/errorHandling.js";
+import { connectToDb } from "./Src/config/mongodbconfig.js";
 
 
 
@@ -53,7 +54,7 @@ server.use("/api/cart",jwtAuth,cartRouter);
 server.use((err,req,res,next)=>{
     console.log(err);
     if(err instanceof ApplicationError){
-        return res.status(err.code).send(err.message)
+        return res.status(err.code).send(err.message);
     }
 
     return res.status(500).send("something went wrong with the database");
@@ -61,5 +62,7 @@ server.use((err,req,res,next)=>{
 
 
 
-server.listen(3200);
-console.log("server is listening");
+server.listen(3200,()=>{
+    console.log("server is listening");
+    connectToDb();
+});

@@ -1,6 +1,6 @@
 import express from "express";
 import { productController } from "./product-controller.js";
-import { basicAuth } from "../middlware/basicauthentication.js";
+// import { basicAuth } from "../middlware/basicauthentication.js";
 
 
 const productRouter = express.Router();

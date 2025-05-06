@@ -4,7 +4,7 @@ import { ApplicationError } from "../middlware/errorHandling.js";
 
 export class userRepository{
     constructor(){
-        this.collectionName = "user"
+        this.collectionName = "users"
     }
 
      async sigup(user){
