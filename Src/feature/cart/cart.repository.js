@@ -21,11 +21,17 @@ export class cartRepo {
         try {
             const db = getDb()
             const collection = db.collection('cart')
-            const item = { productid: new ObjectId(productId), userId: new ObjectId(userId), quantity };
-            const result = await this.collection.insertOne(item);
+            const result = await collection.updateOne(
+                {
+                    userId: new ObjectId(userId), productId: new ObjectId(productId)
+                },{
+                    $inc :{
+                        quantity: quantity
+                    }
+                },{$upsert : true});
             return result;
         }
-        catch(err){
+        catch (err) {
             throw new ApplicationError("Database not Found", 500)
         }
     }
