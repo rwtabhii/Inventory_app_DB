@@ -1,5 +1,5 @@
+import { getDb } from "../../config/mongodbconfig.js";
 import { productRepo } from "./product.repository.js";
-import ProductModel from "./product-model.js";
 export class productController {
     constructor() {
         this.productrepo = new productRepo();
@@ -48,7 +48,14 @@ export class productController {
         }
 
     }
-
-
+    async avgCategoryProduct(req, res) {
+            const result = await this.productrepo.averageProductPerCategory();
+            return res.status(200).send(result);
+        
+    }
+    async averageRating(req,res){
+    const result = this.productrepo.avgRatings();
+    return res.status(200).send(result);
+    }
 
 }

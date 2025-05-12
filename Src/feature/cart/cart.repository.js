@@ -1,12 +1,8 @@
 import { ApplicationError } from '../middlware/errorHandling.js';
-import { getDb } from '../../db.js';
+import { getDb } from '../../config/mongodbconfig.js';
 import { ObjectId } from 'mongodb';
 
 export class cartRepo {
-    constructor(db) {
-        this.db = db;
-        this.collection = db.collection('cart');
-    }
     async getItems(userId) {
         try {
             const db = getDb()

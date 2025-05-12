@@ -46,10 +46,19 @@ export class productRepo {
                 filter.price = { ...filter.price, $gte: minPrice };
             }
             if (category) {
-                filter.category = category;
+                filter = {
+                    $and: [//first expressrion 
+                        { category: category },
+                        // second expression
+                        filter]
+                }
             }
             console.log(filter);
-            return await collection.find(filter).toArray();
+            return await collection.find(filter).project({
+                name: 1, price: 1, _id: 0, ratings: {
+                    $slice: 1
+                }
+            }).toArray();
         }
         catch (err) {
             throw new ApplicationError("something went wrong with the server", 500);
@@ -73,7 +82,7 @@ export class productRepo {
 
                 }, { session });
             //    2nd atomic operation
-             await collection.updateOne({ _id: new ObjectId(productid) },
+            await collection.updateOne({ _id: new ObjectId(productid) },
                 {
                     $push: {
                         rating: {
@@ -84,13 +93,62 @@ export class productRepo {
 
                 }, { session });
             session.commitTransaction();
-            session.endSession(); 
-            return {success : true}   
+            session.endSession();
+            return { success: true }
 
         } catch (err) {
-             await session.abortTransaction();
-             session.endSession();
+            await session.abortTransaction();
+            session.endSession();
             throw new ApplicationError("something went wrong with the server", 500);
         }
     }
+    // aggregation pipeline group operator 
+    async averageProductPerCategory() {
+        try {
+            const db = getDb();
+            const collection = db.collection(this.collectionName);
+            return await collection.aggregate({
+                $group: {
+                    _id: "$category",
+                    averagePrice: {
+                        $avg: "$price"
+                    }
+                }
+            }).toArray();
+        }
+        catch (err) {
+            throw new ApplicationError("Something went wrong with the Database", 500);
+        }
+    }
+    async avgRatings() {
+        try {
+            const db = getDb();
+            const collection = db.collection(this.collectionName);
+            // 1 method to do the avg of ratings of products
+            // await collection.aggregate([{ $unwind: "$rating" },
+            // {
+            //     $group: {
+            //         id: "$name",
+            //         avgRate: {
+            //             $avg: "$rating.rating"
+            //         }
+            //     }
+            // }
+            // ]);
+            // 2 using the project in aggregation pipeline
+             return  await collection.aggregate([{
+                $project: {
+                    name : 1,
+                    avgRate: {
+                        $avg: "$rating.rating"
+                    }
+                }
+             }])
+
+        } catch (err) {
+            throw new ApplicationError("Database not found", 500);
+        }
+    }
+
+    
 }
